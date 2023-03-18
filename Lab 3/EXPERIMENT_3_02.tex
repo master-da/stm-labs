@@ -1,0 +1,114 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}[]
+\usepackage{url}
+\usepackage{geometry}[margin=0.5in]
+\usepackage{listings}
+\usepackage{color}
+\usepackage{float}
+\usepackage{caption}
+\usepackage[newfloat]{minted}
+\captionsetup[listing]{position=top}
+
+\begin{document}
+
+\begin{titlepage}
+	\begin{center}
+    	\includegraphics[scale=0.10]{du.png}\par
+		\begin{Huge}
+			\textsc{University of Dhaka}\par
+		\end{Huge}
+		\begin{Large}
+			Department of Computer Science and Engineering\par \vspace{1cm}
+			CSE-3113: Microprocessor and Assembly Language Lab \\[12pt]	
+			Lab Report 3\\[8pt]
+		\end{Large}
+	\end{center}  	
+	\begin{large}
+		\textbf{Submitted By:\\[12pt]}
+			Name: Mahdi Mohd. Hossain Noki\\[8pt]
+			Roll No : 02\\[12pt]
+		\textbf{Submitted On : \\[12pt]}
+			January 31, 2023\\[15pt]
+		\textbf{Submitted To :\\[12pt]}
+            Upama Kabir\\[10pt]
+            Md. Mustafizur Rahman\\[10pt]
+            Mohammad Rafiqul Islam Rafi\\[10pt]
+                \newpage
+	\end{large}
+\end{titlepage}
+
+\section{Task 1}
+\begin{listing}[h]
+Write a simple program to calculate: P = Q + R + S. Let Q = 2, R = 4, S = 5. Assume
+that r1 = Q, r2 = R, r3 = S. The result P will go in r0
+\begin{minted}[linenos,frame=single]{nasm}
+main
+	MOV r1, #2
+	MOV r2, #4
+	MOV r3, #5
+	ADD r0,r1,r2
+	ADD r0, r0, r3 
+\end{minted}
+The task was rather simple. Three registers - r1, r2 and r2 were loaded with constant values and ADD was used to sum up the values into r0
+\end{listing}
+
+\section{Task 2}
+\begin{listing}[h]
+Write a simple program to calculate: P = Q - R . Assume that r1 = Q, r2 = R, and Q¿R.
+The result P will go in r0.
+\begin{minted}[linenos,frame=single]{nasm}
+sub
+	MOV r1, #4
+	MOV r2, #2
+	SUB r0, r1, r2
+\end{minted}
+Values were loaded up on the registers r1 and r2. SUB subtracts the values and keeps the signed numbers in r0
+\end{listing}
+
+\section{Task 3}
+\begin{listing}[h]
+Write a simple program to calculate: P = Q - R- S. Let Q = 12, R = 4, S = 5. Assume that
+r1 = Q, r2 = R, r3 = S. The result P will go in r0.
+\begin{minted}[linenos,frame=single]{nasm}
+moresub
+	MOV r1, #12
+	MOV r2, #4
+	MOV r3, #5
+	SUB r0, r1, r2
+	SUB r0, r0, r3
+\end{minted}
+This was very similar to Task 2, except SUB was used twice to find r1 - r2 - r3
+\end{listing}
+
+\section{Task 4}
+\begin{listing}[h]
+Write a simple program to calculate: P = Q x R . The result P will go in r0.
+\begin{minted}[linenos,frame=single]{nasm}
+ml
+	MOV r1, #12
+	MOV r2, #4
+	MUL r0, r1, r2
+\end{minted}
+This task involved multiplication. There arises a concern for overflow with sufficiently large numbers. Bigger integers needs to be handled separately to prevent overflow
+\end{listing}
+
+\section{Task 5}
+\begin{listing}[h]
+This problem is same as the problem 1. W = X + Y + Z . Once again, let X = 9, Y = 8,
+Z = 5 and we assume that r4 = X, r3 = Y, r2 = Z. In this case, you will put the data in
+memory in the form of constants before the program runs.
+\begin{minted}[linenos,frame=single]{nasm}
+X EQU 9
+Y EQU 8
+Z EQU 58
+addconstants
+	MOV r4, #X
+	MOV r3, #Y
+	MOV r2, #Z
+	ADD r0, r4, r3
+	ADD r0, r0, r2
+\end{minted}
+This task involved introducing constant values. X, Y and Z were assigned as aliases for some constants and were used later. The rest of the task is similar to Task 1.
+\end{listing}
+\end{document}
