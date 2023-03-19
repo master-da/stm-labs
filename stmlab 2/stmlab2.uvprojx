@@ -419,6 +419,16 @@
               <FileType>1</FileType>
               <FilePath>.\Timer.c</FilePath>
             </File>
+            <File>
+              <FileName>InterruptHandler.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\InterruptHandler.c</FilePath>
+            </File>
+            <File>
+              <FileName>InterruptHandler.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\InterruptHandler.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

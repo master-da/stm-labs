@@ -29,8 +29,6 @@
  */
 
 #include "USART.h"
-#include <stdint.h>
-#include <stdio.h>
 #include "CLOCK.h"
 #include "stm32f446xx.h"
 
@@ -70,7 +68,7 @@ uint8_t _USART_READ_STR(USART_TypeDef* usart,uint8_t *buff,uint16_t size)
 
 void UART_SendChar(USART_TypeDef *usart,uint8_t c){
 	usart->DR = c;
-	while(!(usart->SR & (1<<7)));
+	while(!(usart->SR & USART_SR_TXE));
 }
 
 // Send a string to the UART PORTx
@@ -80,7 +78,7 @@ void UART_SendString(USART_TypeDef *usart,const char *s){
 
 uint8_t UART_GetChar(USART_TypeDef *usart){
 	uint8_t tmp;
-	while(!(usart->SR & (1<<5)));
+	while(!(usart->SR & USART_SR_RXNE));
 	tmp=(uint8_t)usart->DR;
 	return tmp;
 }
@@ -102,7 +100,7 @@ void UART_GetString(USART_TypeDef *uart,uint16_t size,uint8_t* buff)
 /**********************************
 * USART 2 Configuration
 ***********************************/
-void UART2_Config(void){
+void UART2_Config(bool enableReceiveInterupt){
 	/******************************************
 	* 1. Enable UART clock and GPIO clock
 	* 2. Configure UART pin for Alternate function
@@ -112,32 +110,130 @@ void UART2_Config(void){
 	* 6. Enable transmission TE and recieption bits in USART_CR1 register
 	*******************************************/
 	//1. Enable UART clock and GPIO clock
-	RCC->APB1ENR |= (1<<17); //enable UART 2
-	RCC->AHB1ENR |= (1<<0); //enable GPIOA clock
+	RCC->APB1ENR |= RCC_APB1ENR_USART2EN; //enable UART 2
+	RCC->AHB1ENR |= RCC_AHB1ENR_GPIOAEN; //enable GPIOA clock
 	
 		
 	//2. Configure UART pin for Alternate function
-	GPIOA->MODER |= (2<<4); //bits [5:4] -> 1:0 -->Alternate function for pin PA2
-	GPIOA->MODER |= (2<<6); //bits [7:6] -> 1:0 -->Alternate function for PA3
+	GPIOA->MODER |= GPIO_MODER_MODER2_1;//(2<<4); //bits [5:4] -> 1:0 -->Alternate function for pin PA2
+	GPIOA->MODER |= GPIO_MODER_MODER3_1;//(2<<6); //bits [7:6] -> 1:0 -->Alternate function for PA3
 	
-	GPIOA->OSPEEDR |= (3<<4) | (3<<6); //bits [5:4] -> 1:1 -> high speed PA2; bits [7:6] -> 1:1 -> high speed PA3 
+	GPIOA->OSPEEDR |= GPIO_MODER_MODER2 | GPIO_MODER_MODER3;// (3<<4) | (3<<6); //bits [5:4] -> 1:1 -> high speed PA2; bits [7:6] -> 1:1 -> high speed PA3 
 	
-	GPIOA->AFR[0] |= (7<<8);//Bytes (11:10:09:08) = 0:1:1:1 --> AF7 Alternate function for USART2 at pin PA2
-	GPIOA->AFR[0] |= (7<<12); //Bytes (15:14:13:12) = 0:1:1:1 --> AF7 Alternate function for USART2 at pin PA3
+	GPIOA->AFR[0] |= (7<<GPIO_AFRL_AFSEL2_Pos);//Bytes (11:10:09:08) = 0:1:1:1 --> AF7 Alternate function for USART2 at pin PA2
+	GPIOA->AFR[0] |= (7<<GPIO_AFRL_AFSEL3_Pos); //Bytes (15:14:13:12) = 0:1:1:1 --> AF7 Alternate function for USART2 at pin PA3
 	
 	//3. Enable UART on USART_CR1 rgister
 	USART2->CR1 = 0x00; //clear USART
-	USART2->CR1 |= (1<<13);  // UE-bit enable USART
+	USART2->CR1 |= USART_CR1_UE;  // UE-bit enable USART
 	
 	//4. Program M bit in USART CR1 to define the word length
-	USART2->CR1 &= ~(1U<<12); // set M bit  = 0 for 8-bit word length
+	USART2->CR1 &= ~USART_CR1_M; // set M bit  = 0 for 8-bit word length
 	
 	//5. Select the baud rate using the USART_BRR register.
-	USART2->BRR |= (7<<0) | (24<<4); //115200
+	USART2->BRR |= (7<<USART_BRR_DIV_Fraction_Pos) | (24<<USART_BRR_DIV_Mantissa_Pos); //115200
 	
 	//  6. Enable transmission TE and recieption bits in USART_CR1 register
-	USART2->CR1 |= (1<<2); // enable RE for receiver 
-	USART2->CR1 |= (1<<3); //enable TE for transmitter
+	USART2->CR1 |= USART_CR1_RE; // enable RE for receiver 
+	USART2->CR1 |= USART_CR1_TE; //enable TE for transmitter
 	
+	if (enableReceiveInterupt) {
+		NVIC_EnableIRQ(USART2_IRQn);
+		USART2->CR1 |= USART_CR1_RXNEIE;
+	}
+	
+}
+
+/**********************************
+* USART 1 Configuration
+***********************************/
+void UART1_Config(bool enableReceiveInterupt){
+	/******************************************
+	* 1. Enable UART clock and GPIO clock
+	* 2. Configure UART pin for Alternate function
+	* 3. Enable UART on USART_CR1 rgister
+	* 4. Program M bit in USART CR1 to define the word length
+	* 5. Select the baud rate using the USART_BRR register.
+	* 6. Enable transmission TE and recieption bits in USART_CR1 register
+	*******************************************/
+	//1. Enable UART clock and GPIO clock
+	RCC->APB2ENR |= RCC_APB2ENR_USART1EN; //enable UART 1
+	RCC->AHB1ENR |= RCC_AHB1ENR_GPIOAEN; //enable GPIOA clock
+	
+		
+	//2. Configure UART pin for Alternate function
+	GPIOA->MODER |= GPIO_MODER_MODER9_1; //bits [19:18] -> 1:0 -->Alternate function for pin PA9
+	GPIOA->MODER |= GPIO_MODER_MODER10_1; //bits [21:20] -> 1:0 -->Alternate function for PA10
+	
+	GPIOA->OSPEEDR |= GPIO_MODER_MODER9 | GPIO_MODER_MODER10; //bits [19:18] -> 1:1 -> high speed PA9; bits [21:20] -> 1:1 -> high speed PA10
+	
+	GPIOA->AFR[1] |= (7<<GPIO_AFRH_AFSEL9_Pos);// AF7 Alternate function for USART1 at pin PA9
+	GPIOA->AFR[1] |= (7<<GPIO_AFRH_AFSEL10_Pos); // AF7 Alternate function for USART1 at pin PA10
+	
+	//3. Enable UART on USART_CR1 rgister
+	USART1->CR1 = 0x00; //clear USART
+	USART1->CR1 |= USART_CR1_UE;  // UE-bit enable USART
+	
+	//4. Program M bit in USART CR1 to define the word length
+	USART1->CR1 &= ~USART_CR1_M; // set M bit  = 0 for 8-bit word length
+	
+	//5. Select the baud rate using the USART_BRR register.
+	USART1->BRR |= (7<<USART_BRR_DIV_Fraction_Pos) | (24<<USART_BRR_DIV_Mantissa_Pos); //115200
+	
+	//  6. Enable transmission TE and recieption bits in USART_CR1 register
+	USART1->CR1 |= USART_CR1_RE; // enable RE for receiver 
+	USART1->CR1 |= USART_CR1_TE; //enable TE for transmitter
+	
+	if (enableReceiveInterupt) {
+		NVIC_EnableIRQ(USART1_IRQn);
+		USART1->CR1 |= USART_CR1_RXNEIE;
+	}
+}
+
+
+/**********************************
+* USART 6 Configuration
+***********************************/
+void UART6_Config(bool enableReceiveInterupt){
+	/******************************************
+	* 1. Enable UART clock and GPIO clock
+	* 2. Configure UART pin for Alternate function
+	* 3. Enable UART on USART_CR1 rgister
+	* 4. Program M bit in USART CR1 to define the word length
+	* 5. Select the baud rate using the USART_BRR register.
+	* 6. Enable transmission TE and recieption bits in USART_CR1 register
+	*******************************************/
+	//1. Enable UART clock and GPIO clock
+	RCC->APB2ENR |= RCC_APB2ENR_USART6EN; //enable UART 6
+	RCC->AHB1ENR |= RCC_AHB1ENR_GPIOCEN; //enable GPIOC clock
+	
+		
+	//2. Configure UART pin for Alternate function
+	GPIOC->MODER |= GPIO_MODER_MODER6_1; // Alternate function for pin PC6
+	GPIOC->MODER |= GPIO_MODER_MODER7_1; // Alternate function for PC7
+	
+	GPIOC->OSPEEDR |= GPIO_MODER_MODER6 | GPIO_MODER_MODER7; // high speed PC6, PC7
+	
+	GPIOC->AFR[0] |= (7<<GPIO_AFRL_AFSEL6_Pos);// AF7 Alternate function for USART6 at pin PA6
+	GPIOC->AFR[0] |= (7<<GPIO_AFRL_AFSEL7_Pos); // AF7 Alternate function for USART6 at pin PA7
+	
+	//3. Enable UART on USART_CR1 rgister
+	USART6->CR1 = 0x00; //clear USART
+	USART6->CR1 |= USART_CR1_UE;  // UE-bit enable USART
+	
+	//4. Program M bit in USART CR1 to define the word length
+	USART6->CR1 &= ~USART_CR1_M; // set M bit  = 0 for 8-bit word length
+	
+	//5. Select the baud rate using the USART_BRR register.
+	USART6->BRR |= (7<<USART_BRR_DIV_Fraction_Pos) | (24<<USART_BRR_DIV_Mantissa_Pos); //115200
+	
+	//  6. Enable transmission TE and recieption bits in USART_CR1 register
+	USART6->CR1 |= USART_CR1_RE; // enable RE for receiver 
+	USART6->CR1 |= USART_CR1_TE; //enable TE for transmitter
+	
+	if (enableReceiveInterupt) {
+		NVIC_EnableIRQ(USART6_IRQn);
+		USART6->CR1 |= USART_CR1_RXNEIE;
+	}
 }
 
