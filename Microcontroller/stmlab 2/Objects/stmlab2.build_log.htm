@@ -22,12 +22,28 @@ Dialog DLL:      TCM.DLL V1.56.4.0
  
 <h2>Project:</h2>
 C:\Users\User\Desktop\Academics\CSE 3103 Microprocessor and Microcontroller\Lab reports\Microcontroller\stmlab 2\stmlab2.uvprojx
-Project File Date:  03/20/2023
+Project File Date:  04/01/2023
 
 <h2>Output:</h2>
 *** Using Compiler 'V6.19', folder: 'C:\Keil_v5\ARM\ARMCLANG\Bin'
 Build target 'Target 1'
-".\Objects\stmlab2.axf" - 0 Error(s), 0 Warning(s).
+InterruptHandler.c(12): warning: passing 'uint8_t[50]' (aka 'unsigned char[50]') to parameter of type 'char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+                        strcpy(UART1_buff, UART2_buff);
+                               ^~~~~~~~~~
+C:\Keil_v5\ARM\ARMCLANG\Bin\..\include\string.h(77): note: passing argument to parameter here
+extern _ARMABI char *strcpy(char * __restrict /*s1*/, const char * __restrict /*s2*/) __attribute__((__nonnull__(1,2)));
+                                                    ^
+InterruptHandler.c(12): warning: passing 'uint8_t[50]' (aka 'unsigned char[50]') to parameter of type 'const char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+                        strcpy(UART1_buff, UART2_buff);
+                                           ^~~~~~~~~~
+C:\Keil_v5\ARM\ARMCLANG\Bin\..\include\string.h(77): note: passing argument to parameter here
+extern _ARMABI char *strcpy(char * __restrict /*s1*/, const char * __restrict /*s2*/) __attribute__((__nonnull__(1,2)));
+                                                                                    ^
+2 warnings generated.
+compiling InterruptHandler.c...
+linking...
+Program Size: Code=2584 RO-data=484 RW-data=152 ZI-data=1880  
+".\Objects\stmlab2.axf" - 0 Error(s), 2 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -53,12 +69,12 @@ Package Vendor: Keil
    * Component: ARM::CMSIS:CORE:5.6.0
 
    * Component: Keil::Device:Startup:2.6.3
-      Source file:   Drivers/CMSIS/Device/ST/STM32F4xx/Source/Templates/system_stm32f4xx.c
       Include file:  Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h
       Source file:   MDK/Device/Source/ARM/STM32F4xx_OTP.s
       Source file:   MDK/Device/Source/ARM/STM32F446xx_OPT.s
       Source file:   Drivers/CMSIS/Device/ST/STM32F4xx/Source/Templates/arm/startup_stm32f446xx.s
-Build Time Elapsed:  00:00:00
+      Source file:   Drivers/CMSIS/Device/ST/STM32F4xx/Source/Templates/system_stm32f4xx.c
+Build Time Elapsed:  00:00:01
 </pre>
 </body>
 </html>

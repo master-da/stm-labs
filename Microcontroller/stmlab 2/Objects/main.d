@@ -12,4 +12,4 @@
   C:\Users\User\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.17.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h \
   SYS_INIT.h CLOCK.h GPIO.h Timer.h USART.h \
   C:\Keil_v5\ARM\ARMCLANG\Bin\..\include\stdbool.h InterruptHandler.h \
-  C:\Keil_v5\ARM\ARMCLANG\Bin\..\include\string.h
+  C:\Keil_v5\ARM\ARMCLANG\Bin\..\include\string.h StringParser.h

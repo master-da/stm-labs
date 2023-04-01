@@ -39,6 +39,9 @@ extern "C" {
 #include <stdint.h>
 #include <stdio.h>
 #include <stdbool.h>
+#include "CLOCK.h"
+#include "stm32f446xx.h"
+
 void UART_SendChar(USART_TypeDef *,uint8_t);
 void UART_SendString(USART_TypeDef *,const char*);
 uint8_t UART_GetChar(USART_TypeDef *);
@@ -48,15 +51,22 @@ void _USART_WRITE(USART_TypeDef*,uint8_t*);
 uint8_t _USART_READ(USART_TypeDef*,uint8_t *,uint16_t);
 uint8_t _USART_READ_STR(USART_TypeDef*,uint8_t *,uint16_t);
 
+void startTransmissionFromUARTBuff(USART_TypeDef*, const char*);
+void stopTransmissionFromUARTBuff(USART_TypeDef* usart);
+
 // USART 2 Configuration
+static uint8_t UART2_buff[50] = "Default UART2 Buffer";
+static int UART2_buff_write_pos = 0;
 void UART2_Config(bool);
 
 // USART 1 Configuration
+static uint8_t UART1_buff[50] = "Default UART1 Buffer";
+static int UART1_buff_write_pos = 0;
 void UART1_Config(bool);
-void UART1_SetTXEIE(void);
-void UART1_ResetTXEIE(void);
 
 // USART 6 Configuration
+static uint8_t UART6_buff[50] = "Default UART6 Buffer";
+static int UART6_buff_write_pos = 0;
 void UART6_Config(bool);
 //uint8_t * convert(uint32_t,uint8_t);
 

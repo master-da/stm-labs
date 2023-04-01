@@ -429,6 +429,16 @@
               <FileType>5</FileType>
               <FilePath>.\InterruptHandler.h</FilePath>
             </File>
+            <File>
+              <FileName>StringParser.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\StringParser.h</FilePath>
+            </File>
+            <File>
+              <FileName>StringParser.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\StringParser.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -476,5 +486,14 @@
       </file>
     </files>
   </RTE>
+
+  <LayerInfo>
+    <Layers>
+      <Layer>
+        <LayName>stmlab2</LayName>
+        <LayPrjMark>1</LayPrjMark>
+      </Layer>
+    </Layers>
+  </LayerInfo>
 
 </Project>

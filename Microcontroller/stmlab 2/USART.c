@@ -29,10 +29,6 @@
  */
 
 #include "USART.h"
-#include "CLOCK.h"
-#include "stm32f446xx.h"
-
-
 
 void _USART_WRITE(USART_TypeDef *usart,uint8_t *s)
 {
@@ -95,6 +91,14 @@ void UART_GetString(USART_TypeDef *uart,uint16_t size,uint8_t* buff)
 		
 }
 
+void startTransmissionFromUARTBuff(USART_TypeDef* usart, const char* str) {
+	usart->CR1 |= USART_CR1_TXEIE;
+	usart->DR = str[0];
+}
+
+void stopTransmissionFromUARTBuff(USART_TypeDef* usart) {
+	usart->CR1 &= ~(USART_CR1_TXEIE);
+}
 
 
 /**********************************
@@ -139,6 +143,7 @@ void UART2_Config(bool enableReceiveInterupt){
 	
 	if (enableReceiveInterupt) {
 		NVIC_EnableIRQ(USART2_IRQn);
+		NVIC_SetPriority(USART2_IRQn, 3);
 		USART2->CR1 |= USART_CR1_RXNEIE;
 	}
 	
@@ -188,6 +193,7 @@ void UART1_Config(bool enableReceiveInterupt){
 	
 	if (enableReceiveInterupt) {
 		NVIC_EnableIRQ(USART1_IRQn);
+		NVIC_SetPriority(USART1_IRQn, 2);
 		USART1->CR1 |= USART_CR1_RXNEIE;
 	}
 }
@@ -216,7 +222,7 @@ void UART6_Config(bool enableReceiveInterupt){
 	GPIOC->OSPEEDR |= GPIO_MODER_MODE6 | GPIO_MODER_MODE7; //bits [13:12] -> 1:1 -> high speed PC6; bits [15:14] -> 1:1 -> high speed PC7
 	
 	GPIOC->AFR[0] |= (8<<GPIO_AFRL_AFSEL6_Pos);//Bytes (27:26:25:24) = 0:1:1:1 --> AF7 Alternate function for USART1 at pin PC6
-	GPIOC->AFR[0] |= (8<<GPIO_AFRL_AFSEL7_Pos); //Bytes (31:30:29:28) = 0:1:1:1 --> AF7 Alternate function for USART1 at pin PC7
+	GPIOC->AFR[0] |= ((unsigned)8<<GPIO_AFRL_AFSEL7_Pos); //Bytes (31:30:29:28) = 0:1:1:1 --> AF7 Alternate function for USART1 at pin PC7
 	
 	//3. Enable UART on USART_CR1 rgister
 	USART6->CR1 = 0x00; //clear USART
@@ -234,6 +240,7 @@ void UART6_Config(bool enableReceiveInterupt){
 	
 	if (enableReceiveInterupt){
 		NVIC_EnableIRQ(USART6_IRQn);
+		NVIC_SetPriority(USART6_IRQn, 1);
 		USART6->CR1 |= USART_CR1_RXNEIE;
 	}	
 }

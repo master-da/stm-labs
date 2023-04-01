@@ -1,0 +1,167 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Tool Versions:</h2>
+IDE-Version: µVision V5.38.0.0
+Copyright (C) 2022 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: Dipto Mahmud, unv of dhaka, LIC=----
+ 
+Tool Versions:
+Toolchain:       MDK-Lite  Version: 5.38.0.0
+Toolchain Path:  C:\Keil_v5\ARM\ARMCLANG\Bin
+C Compiler:      ArmClang.exe V6.19
+Assembler:       Armasm.exe V6.19
+Linker/Locator:  ArmLink.exe V6.19
+Library Manager: ArmAr.exe V6.19
+Hex Converter:   FromElf.exe V6.19
+CPU DLL:         SARMCM3.DLL V5.38.0.0
+Dialog DLL:      DCM.DLL V1.17.5.0
+Target DLL:      STLink\ST-LINKIII-KEIL_SWO.dll V3.1.0.0
+Dialog DLL:      TCM.DLL V1.56.4.0
+ 
+<h2>Project:</h2>
+C:\Users\Dipto\Desktop\MCU\assignment1.uvprojx
+Project File Date:  03/22/2023
+
+<h2>Output:</h2>
+*** Using Compiler 'V6.19', folder: 'C:\Keil_v5\ARM\ARMCLANG\Bin'
+Build target 'Target 1'
+Timer.c(5): warning: In file included from...
+./Timer.h(18): warning: no newline at end of file [-Wnewline-eof]
+void print_monitor(void);
+                         ^
+Timer.c(9): warning: In file included from...
+./InterruptHandler.h(15): warning: no newline at end of file [-Wnewline-eof]
+uint8_t parse_string(char* , int* );
+                                    ^
+Timer.c(11): warning: no previous extern declaration for non-static variable 'counter' [-Wmissing-variable-declarations]
+uint32_t counter = 0;
+         ^
+Timer.c(11): note: declare 'static' if the variable is not intended to be used outside of this translation unit
+uint32_t counter = 0;
+^
+Timer.c(17): warning: implicit conversion changes signedness: 'unsigned int' to 'int' [-Wsign-conversion]
+        return(GPIOx->IDR & (1<<pin));
+        ~~~~~~ ~~~~~~~~~~~^~~~~~~~~~
+Timer.c(24): warning: no previous extern declaration for non-static variable 'prev2' [-Wmissing-variable-declarations]
+char prev2[500]="";
+     ^
+Timer.c(24): note: declare 'static' if the variable is not intended to be used outside of this translation unit
+char prev2[500]="";
+^
+Timer.c(25): warning: no previous extern declaration for non-static variable 'prev3' [-Wmissing-variable-declarations]
+char prev3[500]="";
+     ^
+Timer.c(25): note: declare 'static' if the variable is not intended to be used outside of this translation unit
+char prev3[500]="";
+^
+Timer.c(37): warning: a function declaration without a prototype is deprecated in all versions of C [-Wstrict-prototypes]
+void monitor_signal()
+                   ^
+                    void
+Timer.c(42): warning: mixing declarations and code is incompatible with standards before C99 [-Wdeclaration-after-statement]
+        int UDR=get_val(12),UDG=get_val(11);
+            ^
+Timer.c(66): warning: a function declaration without a prototype is deprecated in all versions of C [-Wstrict-prototypes]
+void monitor_cong()
+                 ^
+                  void
+Timer.c(76): warning: a function declaration without a prototype is deprecated in all versions of C [-Wstrict-prototypes]
+void print_monitor()
+                  ^
+                   void
+Timer.c(122): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
+        if ((counter % traffic_monitor) == 0) {
+                     ~ ^~~~~~~~~~~~~~~
+Timer.c(118): warning: mixing declarations and code is incompatible with standards before C99 [-Wdeclaration-after-statement]
+                                char t[100];
+                                     ^
+Timer.c(118): warning: unused variable 't' [-Wunused-variable]
+Timer.c(26): warning: no previous extern declaration for non-static variable 'tmp1' [-Wmissing-variable-declarations]
+char tmp1[500];
+     ^
+Timer.c(26): note: declare 'static' if the variable is not intended to be used outside of this translation unit
+char tmp1[500];
+^
+Timer.c(27): warning: no previous extern declaration for non-static variable 'tmp2' [-Wmissing-variable-declarations]
+char tmp2[500];
+     ^
+Timer.c(27): note: declare 'static' if the variable is not intended to be used outside of this translation unit
+char tmp2[500];
+^
+Timer.c(28): warning: no previous extern declaration for non-static variable 'tmp3' [-Wmissing-variable-declarations]
+char tmp3[500];
+     ^
+Timer.c(28): note: declare 'static' if the variable is not intended to be used outside of this translation unit
+char tmp3[500];
+^
+Timer.c(29): warning: no previous extern declaration for non-static variable 'tmp4' [-Wmissing-variable-declarations]
+char tmp4[500];
+     ^
+Timer.c(29): note: declare 'static' if the variable is not intended to be used outside of this translation unit
+char tmp4[500];
+^
+Timer.c(30): warning: no previous extern declaration for non-static variable 'tim1' [-Wmissing-variable-declarations]
+char tim1[500];
+     ^
+Timer.c(30): note: declare 'static' if the variable is not intended to be used outside of this translation unit
+char tim1[500];
+^
+Timer.c(31): warning: no previous extern declaration for non-static variable 'tim2' [-Wmissing-variable-declarations]
+char tim2[500];
+     ^
+Timer.c(31): note: declare 'static' if the variable is not intended to be used outside of this translation unit
+char tim2[500];
+^
+Timer.c(32): warning: no previous extern declaration for non-static variable 'tim3' [-Wmissing-variable-declarations]
+char tim3[500];
+     ^
+Timer.c(32): note: declare 'static' if the variable is not intended to be used outside of this translation unit
+char tim3[500];
+^
+Timer.c(33): warning: no previous extern declaration for non-static variable 'tim4' [-Wmissing-variable-declarations]
+char tim4[500];
+     ^
+Timer.c(33): note: declare 'static' if the variable is not intended to be used outside of this translation unit
+char tim4[500];
+^
+21 warnings generated.
+compiling Timer.c...
+linking...
+Program Size: Code=21924 RO-data=1856 RW-data=0 ZI-data=10008  
+".\Objects\assignment1.axf" - 0 Error(s), 21 Warning(s).
+
+<h2>Software Packages used:</h2>
+
+Package Vendor: ARM
+                http://www.keil.com/pack/ARM.CMSIS.5.9.0.pack
+                ARM.CMSIS.5.9.0
+                CMSIS (Common Microcontroller Software Interface Standard)
+   * Component: CORE Version: 5.6.0
+
+Package Vendor: Keil
+                https://www.keil.com/pack/Keil.STM32F4xx_DFP.2.17.0.pack
+                Keil.STM32F4xx_DFP.2.17.0
+                STMicroelectronics STM32F4 Series Device Support, Drivers and Examples
+   * Component: Startup Version: 2.6.3
+
+<h2>Collection of Component include folders:</h2>
+  ./RTE/_Target_1
+  C:/Users/Dipto/AppData/Local/Arm/Packs/ARM/CMSIS/5.9.0/CMSIS/Core/Include
+  C:/Users/Dipto/AppData/Local/Arm/Packs/Keil/STM32F4xx_DFP/2.17.0/Drivers/CMSIS/Device/ST/STM32F4xx/Include
+
+<h2>Collection of Component Files used:</h2>
+
+   * Component: ARM::CMSIS:CORE:5.6.0
+
+   * Component: Keil::Device:Startup:2.6.3
+      Source file:   MDK/Device/Source/ARM/STM32F446xx_OPT.s
+      Include file:  Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h
+      Source file:   MDK/Device/Source/ARM/STM32F4xx_OTP.s
+      Source file:   Drivers/CMSIS/Device/ST/STM32F4xx/Source/Templates/arm/startup_stm32f446xx.s
+      Source file:   Drivers/CMSIS/Device/ST/STM32F4xx/Source/Templates/system_stm32f4xx.c
+Build Time Elapsed:  00:00:01
+</pre>
+</body>
+</html>
